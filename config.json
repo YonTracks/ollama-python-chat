@@ -1,0 +1,24 @@
+{
+  "app_settings": {
+    "mode": "cli",
+    "model": "llama3.1",
+    "temperature": 0.7,
+    "log_directory": "logs",
+    "prompt_symbol": ">>>",
+    "tools_enabled": false,
+    "logging_enabled": false,
+    "log_level": "INFO"
+  },
+  "model_options": {
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "top_k": 40,
+    "num_thread": 4,
+    "num_ctx": 2048,
+    "repeat_penalty": 1.1,
+    "mirostat": 0,
+    "mirostat_eta": 0.1,
+    "mirostat_tau": 5.0
+  },
+  "exit_commands": ["/bye", "/exit", "/quit"]
+}
