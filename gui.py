@@ -155,7 +155,7 @@ class ChatGUI:
         self.message_entry.bind('<Return>', lambda e: self.send_message())
         self.message_entry.bind('<Control-KeyPress>', self.handle_keyboard_shortcuts)
         
-        # Send button with icon (you can replace with actual icon)
+        # Send button with icon (you can replace with an actual icon)
         self.send_button = ttk.Button(
             self.input_container,
             text="↑",
@@ -164,11 +164,11 @@ class ChatGUI:
         )
         self.send_button.grid(row=0, column=2, padx=(5, 0))
         
-        # Control panel
+        # Control panel (define it here, before adding any buttons)
         self.control_panel = ttk.Frame(self.main_container)
         self.control_panel.grid(row=2, column=0, sticky="ew", pady=10)
         
-        # Theme toggle
+        # Now you can add buttons and other widgets to the control panel
         self.theme_button = ttk.Button(
             self.control_panel,
             text="🌓",
@@ -177,7 +177,6 @@ class ChatGUI:
         )
         self.theme_button.pack(side=tk.LEFT, padx=5)
         
-        # Model selector
         self.model_var = tk.StringVar(value=self.model)
         self.model_selector = ttk.Combobox(
             self.control_panel,
@@ -187,7 +186,6 @@ class ChatGUI:
         )
         self.model_selector.pack(side=tk.LEFT, padx=5)
         
-        # Temperature slider
         self.temp_scale = ttk.Scale(
             self.control_panel,
             from_=0.0,
@@ -198,7 +196,6 @@ class ChatGUI:
         )
         self.temp_scale.pack(side=tk.LEFT, padx=5)
         
-        # Clear button
         self.clear_button = ttk.Button(
             self.control_panel,
             text="🗑",
@@ -207,15 +204,20 @@ class ChatGUI:
         )
         self.clear_button.pack(side=tk.RIGHT, padx=5)
         
-        # Create Model button
         self.create_model_button = ttk.Button(
             self.control_panel,
             text="Create Model",
             command=self.open_create_model_window
         )
         self.create_model_button.pack(side=tk.RIGHT, padx=5)
+
+        self.delete_model_button = ttk.Button(
+            self.control_panel,
+            text="Delete Model",
+            command=self.delete_model
+        )
+        self.delete_model_button.pack(side=tk.RIGHT, padx=5)
         
-        # Settings button
         self.settings_button = ttk.Button(
             self.control_panel,
             text="Settings",
@@ -225,6 +227,7 @@ class ChatGUI:
         
         # Configure message styling
         self.setup_message_tags()
+
 
     def setup_message_tags(self):
         """Configure text tags for message styling."""
@@ -357,6 +360,36 @@ class ChatGUI:
         finally:
             # Ensure the asynchronous generators are properly closed
             await asyncio.sleep(0)  # This line is a workaround to allow the event loop to process pending tasks
+
+    # Delete Model Functionality
+    def delete_model(self):
+        """Delete the selected model."""
+        selected_model = self.model_var.get()
+        if not selected_model:
+            messagebox.showerror("Error", "Please select a model to delete.")
+            return
+
+        if messagebox.askyesno("Delete Model", f"Are you sure you want to delete the model '{selected_model}'?"):
+            try:
+                ollama.delete(selected_model)
+                # Remove model from the GUI and config
+                self.update_models_list_after_deletion(selected_model)
+                messagebox.showinfo("Success", f"Model '{selected_model}' deleted successfully.")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to delete model: {e}")
+
+    def update_models_list_after_deletion(self, model_to_delete: str):
+        """Update the models list after deletion."""
+        # Update the models list in the combobox
+        models = list(self.model_selector['values'])
+        if model_to_delete in models:
+            models.remove(model_to_delete)
+            self.model_selector['values'] = models
+
+        # Update the config file to remove the deleted model
+        if 'models' in self.config["gui_settings"] and model_to_delete in self.config["gui_settings"]["models"]:
+            self.config["gui_settings"]["models"].remove(model_to_delete)
+        self.save_config()
 
     def send_message(self):
         """Send message with input validation."""

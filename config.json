@@ -1,47 +1,33 @@
 {
-    "app_settings": {
-        "gui_enabled": false,
-        "mode": "cli",
-        "model": "llama3.1",
-        "temperature": 0.7,
-        "log_directory": "logs",
-        "log_backup_count": 3,
-        "prompt_symbol": ">>>",
-        "tools_enabled": false,
-        "logging_enabled": true,
-        "log_level": "INFO"
-    },
-    "gui_settings": {
-        "window_title": "Ollama Chat",
-        "window_size": "800x600",
-        "min_size": [
-            800,
-            600
-        ],
-        "theme": "dark",
-        "models": [
-            "llama3.1",
-            "llama3.2",
-            "llama3.1-param",
-            "llama3.2-mario",
-            "llama3.2-mario2",
-            "llama3.2-mario3"
-        ]
-    },
-    "model_options": {
-        "temperature": 0.7,
-        "top_p": 0.9,
-        "top_k": 40,
-        "num_thread": 4,
-        "num_ctx": 2048,
-        "repeat_penalty": 1.1,
-        "mirostat": 0,
-        "mirostat_eta": 0.1,
-        "mirostat_tau": 5.0
-    },
-    "exit_commands": [
-        "/bye",
-        "/exit",
-        "/quit"
-    ]
+  "app_settings": {
+    "gui_enabled": true,
+    "mode": "cli",
+    "model": "llama3.1",
+    "temperature": 0.7,
+    "log_directory": "logs",
+    "log_backup_count": 3,
+    "prompt_symbol": ">>>",
+    "tools_enabled": false,
+    "logging_enabled": false,
+    "log_level": "INFO"
+  },
+  "gui_settings": {
+    "window_title": "Ollama Chat",
+    "window_size": "800x600",
+    "min_size": [800, 600],
+    "theme": "dark",
+    "models": ["llama3.1", "llama3.2"]
+  },
+  "model_options": {
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "top_k": 40,
+    "num_thread": 4,
+    "num_ctx": 2048,
+    "repeat_penalty": 1.1,
+    "mirostat": 0,
+    "mirostat_eta": 0.1,
+    "mirostat_tau": 5.0
+  },
+  "exit_commands": ["/bye", "/exit", "/quit"]
 }
