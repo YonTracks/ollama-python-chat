@@ -1,10 +1,11 @@
 {
     "app_settings": {
-        "gui_enabled": true,
+        "gui_enabled": false,
         "mode": "cli",
         "model": "llama3.1",
         "temperature": 0.7,
         "log_directory": "logs",
+        "log_backup_count": 3,
         "prompt_symbol": ">>>",
         "tools_enabled": false,
         "logging_enabled": true,

@@ -66,9 +66,12 @@ async def speak(speaker, content):
 # CLI Chat function
 async def main_cli(config):
     parser = argparse.ArgumentParser(description="Ollama Chat Application")
-    parser.add_argument('--model', type=str, help="Model name to use for chat.")
+    parser.add_argument('--model', type=str, default=config['app_settings']['model'], help="Model name to use for chat.")
     parser.add_argument('--temperature', type=float, help="Temperature setting for the model.")
     parser.add_argument('--speak', default=False, action='store_true', help="Enable text-to-speech for responses.")
+    parser.add_argument('--log-dir', type=str, default=config['app_settings']['log_directory'], help="Directory to store log files.")
+    parser.add_argument('--max-log-size', type=int, default=5*1024*1024, help="Max size in bytes for each log file before rotation (default: 5MB).")
+    parser.add_argument('--backup-count', type=int, default=3, help="Max number of log backup files (default: 3).")
     parser.add_argument('--set', nargs=2, metavar=('KEY', 'VALUE'), action='append', help="Set configuration key to value.")
     parser.add_argument('--show-config', action='store_true', help="Display the current configuration.")
     args = parser.parse_args()
